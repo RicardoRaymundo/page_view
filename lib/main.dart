@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:page_view/colored_pages/colored_page_first.dart';
+import 'package:page_view/colored_pages/colored_page_middle.dart';
+import 'package:page_view/colored_pages/colored_page_last.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Exemplo de PageView'),
     );
   }
 }
@@ -26,21 +28,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  // Declarando variavel de controle do PageView
-  PageController _pageControllerSecond = PageController();
-
-  //TODO: Fazer transição animada
-  PageController _lastPageController = PageController();
-  var currentPageValue = 0.0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,90 +39,12 @@ class _MyHomePageState extends State<MyHomePage> {
         //Mudando o scrollDirection, posso acessar meus PageView verticalmente
         scrollDirection: Axis.vertical,
         children: <Widget>[
+          //Widgets importados do diretório colored_pages
           ColoredPageFirst(),
-          coloredPageMiddle(_pageControllerSecond),
-          coloredPageLast(context),
+          ColoredPageMiddle(),
+          ColoredPageLast(),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), //
     );
   }
-
-  //pagina pink
-  coloredPageFirst(BuildContext context) => PageView.builder(
-        //Diversas propriedades que alteram o comportamento do PageView
-        //pageSnapping: false, //permite posicoes instermediarias entre as paginas
-        //scrollDirection: Axis.vertical,
-        //physics: BouncingScrollPhysics(),
-        itemBuilder: (context, position) {
-          return Container(
-            //Essa função de construção retorna 'infinitos' Container
-            //A logica abaixo faz com que o proximo Container construido
-            //tenha a cor oposta ao anterior
-            color: position % 2 == 0 ? Colors.pink : Colors.cyan,
-            child: Center(
-              child: Text(
-                'Arraste para cima \n ou \n para os lados',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 25),
-              ),
-            ),
-          );
-        },
-      );
-
-  coloredPageMiddle(PageController pageController) => PageView(
-        controller: pageController,
-        children: <Widget>[
-          Container(
-            color: Colors.red,
-            child: Center(
-              child: Text(
-                'Arraste para cima e baixo \n ou \n para os lados',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 25),
-              ),
-            ),
-          ),
-          Container(
-              color: Colors.green,
-              child: Center(
-                child: Text(
-                  'Arraste para cima e baixo \n ou \n para os lados',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 25),
-                ),
-              )),
-          Container(
-              color: Colors.amber,
-              child: Center(
-                child: Text(
-                  'Arraste para cima e baixo \n ou \n para os lados',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 25),
-                ),
-              )),
-        ],
-      );
-
-  coloredPageLast(BuildContext context) => PageView.builder(
-        controller: _lastPageController,
-        itemBuilder: (context, position) {
-          return Container(
-            color: position % 2 == 0 ? Colors.deepPurpleAccent : Colors.grey,
-            child: Center(
-              child: Text(
-                'Arraste para baixo \n ou \n para os lados',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 25),
-              ),
-            ),
-          );
-        },
-        itemCount: 10, // pode ser nulo
-      );
 }
