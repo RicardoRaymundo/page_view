@@ -52,73 +52,9 @@ class _MyHomePageState extends State<MyHomePage> {
         //Mudando o scrollDirection, posso acessar meus PageView verticalmente
         scrollDirection: Axis.vertical,
         children: <Widget>[
-          PageView.builder(
-            //Diversas propriedades que alteram o comportamento do PageView
-            //pageSnapping: false,
-            //scrollDirection: Axis.vertical,
-            //physics: BouncingScrollPhysics(),
-            itemBuilder: (context, position) {
-              return Container(
-                //Essa função de construção retorna 'infinitos' Container
-                //A logica abaixo faz com que o proximo Container construido
-                //tenha a cor oposta ao anterior
-                color: position % 2 == 0 ? Colors.pink : Colors.cyan,
-                child: Center(
-                  child: Text('Arraste para cima \n ou \n para os lados',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 25),
-                  ),
-                ),
-              );
-            },
-          ),
-          PageView(
-            controller: _secondPageController,
-            children: <Widget>[
-              Container(
-                color: Colors.red,
-                child: Center(
-                  child: Text('Arraste para cima e baixo \n ou \n para os lados',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 25),
-                  ),
-                ),
-              ),
-              Container(
-                color: Colors.green,
-                  child: Center(
-                    child: Text('Arraste para cima e baixo \n ou \n para os lados',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 25),
-                    ),
-                  )
-              ),
-              Container(
-                color: Colors.amber,
-                  child: Center(
-                    child: Text('Arraste para cima e baixo \n ou \n para os lados',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 25),
-                    ),
-                  )
-              ),
-            ],
-          ),
-          PageView.builder(
-            controller: _lastPageController,
-            itemBuilder: (context, position){
-              return Container(
-                color: position % 2 == 0 ? Colors.deepPurpleAccent : Colors.grey,
-                child: Center(
-                  child: Text('Arraste para cima \n ou \n para os lados',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 25),
-                  ),
-                ),
-              );
-            },
-            itemCount: 10, // pode ser nulo
-          )
+          coloredPageFirst(context),
+          coloredPageMiddle(_secondPageController),
+          coloredPageLast(context),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -128,4 +64,77 @@ class _MyHomePageState extends State<MyHomePage> {
       ), //
     );
   }
+
+  //pagina pink
+  coloredPageFirst(BuildContext context) => PageView.builder(
+    //Diversas propriedades que alteram o comportamento do PageView
+    //pageSnapping: false, //permite posicoes instermediarias entre as paginas
+    //scrollDirection: Axis.vertical,
+    //physics: BouncingScrollPhysics(),
+    itemBuilder: (context, position) {
+      return Container(
+        //Essa função de construção retorna 'infinitos' Container
+        //A logica abaixo faz com que o proximo Container construido
+        //tenha a cor oposta ao anterior
+        color: position % 2 == 0 ? Colors.pink : Colors.cyan,
+        child: Center(
+          child: Text('Arraste para cima \n ou \n para os lados',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 25),
+          ),
+        ),
+      );
+    },
+  );
+
+
+  coloredPageMiddle(PageController pageController) => PageView(
+    controller: pageController,
+    children: <Widget>[
+      Container(
+        color: Colors.red,
+        child: Center(
+          child: Text('Arraste para cima e baixo \n ou \n para os lados',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 25),
+          ),
+        ),
+      ),
+      Container(
+          color: Colors.green,
+          child: Center(
+            child: Text('Arraste para cima e baixo \n ou \n para os lados',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 25),
+            ),
+          )
+      ),
+      Container(
+          color: Colors.amber,
+          child: Center(
+            child: Text('Arraste para cima e baixo \n ou \n para os lados',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 25),
+            ),
+          )
+      ),
+    ],
+  );
+
+  coloredPageLast(BuildContext context) => PageView.builder(
+    controller: _lastPageController,
+    itemBuilder: (context, position){
+      return Container(
+        color: position % 2 == 0 ? Colors.deepPurpleAccent : Colors.grey,
+        child: Center(
+          child: Text('Arraste para baixo \n ou \n para os lados',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 25),
+          ),
+        ),
+      );
+    },
+    itemCount: 10, // pode ser nulo
+  );
+
 }
